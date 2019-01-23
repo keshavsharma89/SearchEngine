@@ -1,0 +1,103 @@
+<div class="container" *ngIf="!gotSearchResult; else showList">
+  <div class="row justify-content-center">
+    <div class="col-lg-4  col-sm-8 content-center">
+      <img alt="Google Logo" class="logo" src="assets/images/googlelogo.png">
+    </div>
+  </div>
+  <form [formGroup]="sForm">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-sm-12 ">
+        <div class="form-group">
+          <input type="text" class="form-control searchbar" aria-describedby="GoogleSearch" id="searchString" name="searchString" formControlName="searchString">
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-sm-8 content-center">
+        <button type="submit" (click)="search(sForm)" class="btn btn-sm btn-secondary search-btn" >Google Search</button>
+        <button type="submit" (click)="luckySearch()"  class="btn btn-sm btn-secondary search-btn" >I'm Feeling Lucky</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+  <ng-template #showList>
+    <div class="row firstRow border-bottom">
+      <div class="col-1 content-center">
+        <img alt="Google Logo" class="slogo" (click)="hideList()" src="assets/images/googlelogo_dp.png">
+      </div>
+      <div class="col-6 content-center">
+        <form [formGroup]="sForm">
+          <div class="form-group">
+            <div class="input-group bigSearchBar">
+              <input type="text" class="form-control innerSearchBar" aria-label="Google Search" aria-describedby="Google Search" id="searchString" name="searchString" formControlName="searchString">
+
+              <div class="input-group-prepend ">
+                <div class="input-group-text innerSearchButton" (click)="search(sForm)" id="btnGroupAddon"><img alt="Google Logo" src="assets/images/iconfinder_icon.png"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-5 text-right">
+        <button type="button" class="btn btn-sm btn-primary signbtn">Sign in</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-start no-match-row" *ngIf="records.length == 0; else showRecords">
+        <div class="col-7 listItems">
+          <p>Your search - <b>{{searchString}}</b> - did not match any documents.</p>
+          <p>Suggestions:</p>
+          <ul>
+            <li>Make sure that all words are spelled correctly.</li>
+            <li>Try different keywords.</li>
+            <li>Try more general keywords.</li>
+            <li>Try fewer keywords.</li>
+          </ul>
+        </div>
+      </div>
+      <ng-template  #showRecords>
+        <div class="row justify-content-start" >
+          <div class="col-7 listItems">
+            <p class="result-count">About {{totalRecords}} results</p>
+          </div>
+        </div>
+        <div class="row justify-content-start" *ngFor="let item of records" >
+          <div class="col-7 listItems">
+            <div>
+              <a><h3 class="result-title">{{item.title}}</h3><br><span class="result-url">{{item.url}}</span></a>
+              <p>{{item.description}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-start">
+          <div class="col-7 listItems text-center">
+            <table class="nav-table">
+              <tr>
+                <td>
+                  <a class="nav-a" (click)="getSearchResult(searchString, currentPages-1)">
+                    <span class="nav-img nav-pv"></span>
+                    <span class="nav-text nav-pv-text">Previous</span>
+                  </a>
+                </td>
+
+                <td *ngFor="let page of createArray(pages); let currentIndex =index ">
+                  <a class="nav-a" [ngClass]="{'active': currentPages==(currentIndex+1)}" (click)="getSearchResult(searchString, currentIndex+1)">
+                    <span class="nav-img nav-page"></span>
+                    <span class="nav-text nav-page-text">{{currentIndex+1}}</span>
+                  </a>
+                </td>
+                <td>
+                  <a class="nav-a" (click)="getSearchResult(searchString, currentPages+1)">
+                    <span class="nav-img nav-nxt"></span>
+                    <span class="nav-text nav-nxt-text">Next</span>
+                  </a>
+                </td>
+
+              </tr>
+            </table>
+          </div>
+        </div>
+      </ng-template >
+    </div>
+  </ng-template>
