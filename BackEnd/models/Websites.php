@@ -58,6 +58,7 @@ class Websites extends \yii\db\ActiveRecord
         ];
     }
 
+    // this function will query and return the list of all found results
     public static function listSearchData($search, $limit, $offset){
         $data = Websites::find()
         ->select(['title','description', 'url'])
@@ -72,6 +73,7 @@ class Websites extends \yii\db\ActiveRecord
         return $data;
     }
 
+    // this function will query and return the count of all the possible results
     public static function countSearchData($search){
         $count = Websites::find()
         ->where(['like', 'keywords', '%' . $search . '%', false])
