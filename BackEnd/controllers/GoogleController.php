@@ -39,12 +39,13 @@ class GoogleController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * This will be the main endpoint which will produce result against search string.
      *
      * @return string
      */
     public function actionSearch()
     {
+      // getting arrguments from get request
       $request_data = Yii::$app->request->get();
       if(isset($request_data['s']) && $request_data['s']!=""){
         $search=$request_data['s'];
@@ -60,6 +61,7 @@ class GoogleController extends Controller
       // calling the google componet to fetch data from DB
       $data=Yii::$app->search->google($search, $page);
 
+      // returning response
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       return [
           'data' => $data,
