@@ -9,7 +9,6 @@ export class RecordsService {
 
   constructor(private http: HttpClient) { }
 
-   // endpoint = 'http://localhost/SearchEngine/BackEnd/web/';
    httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json'
@@ -22,6 +21,7 @@ export class RecordsService {
   }
 
   getData(searchString, page): Observable<any> {
+    // for now URL is static, which will be alter as per need
     return this.http.get('http://localhost/SearchEngine/BackEnd/web/google/search?p='+page+'&s='+searchString).pipe(
       map(this.extractData)
     );
